@@ -1,0 +1,30 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: update Ubuntu repository index
+    apt:
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: install updates
+    apt:
+      upgrade: dist
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: update CentOS repository index
+    yum:
+      update_cache: yes
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+  - name: Upgrade CentOS
+    yum:
+      name: '*'
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+
